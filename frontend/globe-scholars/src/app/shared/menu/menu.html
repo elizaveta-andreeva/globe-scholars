@@ -4,10 +4,24 @@
     </div>
 
     <div class="menu">
-        <a routerLink="/">Home</a>
-        <a routerLink="/about">About</a>
-        <a routerLink="/scholars">Scholars</a>
-        <a routerLink="/repository">Repository</a>
-        <button><a routerLink="/login">Login</a></button>
+        <a routerLink="/" routerLinkActive="active">Home</a>
+        <a routerLink="/about" routerLinkActive="active">About</a>
+        <a routerLink="/scholars" routerLinkActive="active">Scholars</a>
+        <a routerLink="/repository" routerLinkActive="active">Repository</a>
+
+        <div class="menu-btns">
+            @if(isLoggedIn && userImage){
+                <div class="profileImage">
+                    <img [src]="userImage" />
+                </div>
+            }
+            <button>
+                @if(!isLoggedIn) {
+                    <a routerLink="/login">LOGIN</a>
+                } @else {
+                    <a routerLink="/upload">UPLOAD</a>
+                }
+            </button>
+        </div>
     </div>
 </div>
