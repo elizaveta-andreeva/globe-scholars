@@ -1,38 +1,89 @@
 services:
   db:
-    image: postgres:15
-    environment:
-      POSTGRES_DB: scholar_db
-      POSTGRES_USER: admin
-      POSTGRES_PASSWORD: admin
+    image: postgres:16
     volumes:
       - postgres_data:/var/lib/postgresql/data
+    environment:
+      POSTGRES_DB: globe_scholars
+      POSTGRES_USER: globe_user
+      POSTGRES_PASSWORD: yourpassword123
     ports:
-      - "5432:5432"
+      - "5433:5432"  # ← Changed from 5432:5432 to 5433:5432
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U globe_user -d globe_scholars"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+  redis:
+    image: redis:7-alpine
+    ports:
+      - "6380:6379"  # ← Changed from 6379:6379 to 6380:6379
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 5s
+      timeout: 3s
+      retries: 5
 
   backend:
-    build: ./backend
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
     command: python manage.py runserver 0.0.0.0:8000
     volumes:
       - ./backend:/app
+      - media_files:/app/media
     ports:
-      - "8000:8000"
+      - "8001:8000"  # ← Changed from 8000:8000 to 8001:8000
+    environment:
+      - DEBUG=${DEBUG}
+      - DB_HOST=db
+      - DB_PORT=5432
+      - POSTGRES_DB=${POSTGRES_DB}
+      - POSTGRES_USER=${POSTGRES_USER}
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+      - REDIS_URL=redis://redis:6379/0 # ← Keep as 6379 (inside Docker)
+    depends_on:
+      db:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+
+  celery:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    command: celery -A backend worker --loglevel=info
+    volumes:
+      - ./backend:/app
+      - media_files:/app/media
+    environment:
+      - DEBUG=${DEBUG}
+      - DB_HOST=db
+      - DB_PORT=5432
+      - POSTGRES_DB=${POSTGRES_DB}
+      - POSTGRES_USER=${POSTGRES_USER}
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+      - REDIS_URL=redis://redis:6379/0
     depends_on:
       - db
-    environment:
-      DATABASE_HOST: db
-      DATABASE_NAME: scholar_db
-      DATABASE_USER: admin
-      DATABASE_PASSWORD: admin
-
+      - redis
+      - backend
+    
   frontend:
-    build: ./frontend
-    ports:
-      - "4200:4200"
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
     volumes:
       - ./frontend/globe-scholars:/app
+      - /app/node_modules  # Anonymous volume for node_modules
+    ports:
+      - "4200:4200"
+    environment:
+      - CHOKIDAR_USEPOLLING=true  # Enable hot reload in Docker
     depends_on:
-      - backend
+      - backend  
 
 volumes:
   postgres_data:
+  media_files:
