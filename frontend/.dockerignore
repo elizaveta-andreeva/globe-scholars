@@ -1,0 +1,5 @@
+globe-scholars/node_modules
+globe-scholars/dist
+globe-scholars/.angular
+.git
+*.log
