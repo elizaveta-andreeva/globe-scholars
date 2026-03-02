@@ -9,6 +9,7 @@ WORKDIR /app
 
 # Install system dependencies
 RUN apt-get update && apt-get install -y \
+    libreoffice \
     python3-pip \
     libpango-1.0-0 \
     libharfbuzz0b \
