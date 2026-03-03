@@ -36,7 +36,7 @@ describe('AuthService', () => {
 
   it('should make an http request to the register endpoint', () => {
     service.register(newUser).subscribe();
-    const req = httpTestingController.expectOne('http://localhost:8000/api/auth/signup/');
+    const req = httpTestingController.expectOne('http://localhost:8001/api/auth/signup/');
     expect(req.request.method).toBe('POST');
     expect(req.request.body).toEqual(newUser);
     httpTestingController.verify();
@@ -69,7 +69,7 @@ describe('AuthService', () => {
       expect(res).toEqual(expectedResponse);
       done();
     });
-    const req = httpTestingController.expectOne('http://localhost:8000/api/auth/signup/');
+    const req = httpTestingController.expectOne('http://localhost:8001/api/auth/signup/');
     expect(req.request.method).toBe('POST');
     req.flush(expectedResponse);
     httpTestingController.verify();
@@ -82,7 +82,7 @@ describe('AuthService', () => {
         done();
       },
     });
-    const req = httpTestingController.expectOne('http://localhost:8000/api/auth/signup/');
+    const req = httpTestingController.expectOne('http://localhost:8001/api/auth/signup/');
     expect(req.request.method).toBe('POST');
     req.flush({ username: ['user with this username already exists.'] }, { status: 400, statusText: 'Bad Request' });
     httpTestingController.verify();
@@ -95,7 +95,7 @@ describe('AuthService', () => {
           done();
         },
       });
-      const req = httpTestingController.expectOne('http://localhost:8000/api/auth/signup/');
+      const req = httpTestingController.expectOne('http://localhost:8001/api/auth/signup/');
       expect(req.request.method).toBe('POST');
       req.flush({ password: ['Passwords do not match.'] }, { status: 400, statusText: 'Bad Request' });
       httpTestingController.verify();
