@@ -15,13 +15,13 @@ constructor(
   private authService: AuthService,
 ){}
 
-apiErrorMsg:string = ''
+apiErrorMsg!:string;
 formErrorMsg:string = ''
 
 form = new FormGroup({
-  first_name: new FormControl('', [Validators.required, Validators.minLength(2)]),
-  last_name: new FormControl('', [Validators.required, Validators.minLength(2)]),
-  username: new FormControl('', [Validators.required, Validators.minLength(2)]),
+  first_name: new FormControl('', [Validators.required]),
+  last_name: new FormControl('', [Validators.required]),
+  username: new FormControl('', [Validators.required]),
   password: new FormControl('', [Validators.required, Validators.pattern(/^(?=\S*?[A-Z])(?=\S*?[a-z])(?=\S*?[0-9])\S{6,}$/)]),//min 6 chars, at least 1 uppercase, at least 1 lowercase, at least 1 number, no spaces
   password2: new FormControl('', [Validators.required])
 })
@@ -54,11 +54,12 @@ this.authService.register(params).subscribe({
 },
   error: (res) => {
     if (res.error.username) {
-      this.username?.setErrors({ error: res.error.username[0] });
+      this.apiErrorMsg = res.error.username[0];
     }
     if (res.error.password) {
-      this.password?.setErrors({ error: res.error.password[0] });
+      this.apiErrorMsg = res.error.password[0];
     }
+    this.apiErrorMsg = '';
     this.form.markAllAsTouched();
   console.log(res.error)
   }
