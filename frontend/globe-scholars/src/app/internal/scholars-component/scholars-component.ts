@@ -1,8 +1,9 @@
-import { Component, OnInit } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { FormsModule } from '@angular/forms';
-import { ScholarsService } from '../../services/scholars/scholars-service';
-import { Scholar } from '../../services/scholars/scholar.model';
+import {Component, OnInit, PLATFORM_ID, Inject, ChangeDetectorRef} from '@angular/core';
+import {CommonModule} from '@angular/common';
+import {FormsModule} from '@angular/forms';
+import {ScholarsService} from '../../services/scholars/scholars-service';
+import {Scholar} from '../../services/scholars/scholar.model';
+import {isPlatformBrowser} from '@angular/common';
 
 @Component({
   selector: 'app-scholars',
@@ -19,10 +20,17 @@ export class ScholarsComponent implements OnInit {
   isLoading = false;
   error: string | null = null;
 
-  constructor(private scholarsService: ScholarsService) {}
+  constructor(
+    private scholarsService: ScholarsService,
+    @Inject(PLATFORM_ID) private platformId: Object,
+    private cdr: ChangeDetectorRef  // 👈
+  ) {
+  }
 
   ngOnInit() {
-    this.loadScholars();
+    if (isPlatformBrowser(this.platformId)) {
+      this.loadScholars();
+    }
   }
 
   loadScholars() {
@@ -33,13 +41,16 @@ export class ScholarsComponent implements OnInit {
       next: (data) => {
         this.scholars = data;
         this.isLoading = false;
+        this.cdr.detectChanges();  // 👈
       },
       error: () => {
         this.error = 'Failed to load scholars. Please try again.';
         this.isLoading = false;
+        this.cdr.detectChanges();  // 👈
       }
     });
   }
+
 
   get filteredScholars(): Scholar[] {
     return [...this.scholars]

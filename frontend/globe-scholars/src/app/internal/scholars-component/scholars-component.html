@@ -32,9 +32,6 @@
           <div class="scholar-info">
             <p class="scholar-name">{{ scholar.fullName }}</p>
             <p class="scholar-year">{{ getYear(scholar.createdAt) }}</p>
-            @if (scholar.affiliation) {
-              <p class="scholar-affiliation">{{ scholar.affiliation }}</p>
-            }
             <p class="scholar-uploads">{{ scholar.uploadCount }}</p>
           </div>
         </div>
