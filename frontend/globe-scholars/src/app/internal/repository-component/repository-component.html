@@ -1,1 +1,51 @@
-<p>repository-component works!</p>
+<div class="breadcrumb-sm">Home > Repository</div>
+
+<div class="file-container">
+    <div class="left-column">
+        <div class="breadcrumb-xl">Home > Repository</div>
+        <div class="search-bar">
+            <h4>Search Bar</h4>
+            <input type="text" placeholder="Search by name..."/>
+            <small>Type to search for documents by name</small>
+        </div>
+        @for(file of filteredFiles; track file.id) {
+            <div class="file-card">
+                <div class="file-grid">
+                    <h1>{{ file.title }}</h1>
+                    <h2>{{ file.author }}</h2>
+                    <div class="grid-footer">
+                        <button>Open</button>
+                        <button>Download</button>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+
+    <div class="right-column">
+        <div class="filter-container">
+            <h4>Filter by Publication Year</h4>
+            <div class="filter-btns">
+                @for(button of buttons; track button.id){
+                    <button>{{ button.text }}</button>
+                }
+            </div>
+            <small>Select publication year range</small>
+        </div>
+        <div class="file-listing">
+            <div class="listing-header">
+                <h4>Scholars</h4>
+                <button>View All</button>
+            </div>
+            <div class="file-card">
+            @for (scholar of scholars; track scholar.id) {
+                <div>
+                    <img [src]="'https://upload.wikimedia.org/wikipedia/commons/8/89/Portrait_Placeholder.png'" />
+                    <h1>{{ scholar.firstName + ' ' + scholar.lastName }}</h1>
+                    <h1>{{ scholar.createdAt | date }}</h1>
+                </div>
+            }
+            </div>
+        </div>
+    </div>
+</div>
