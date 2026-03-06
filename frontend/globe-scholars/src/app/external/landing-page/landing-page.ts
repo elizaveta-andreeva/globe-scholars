@@ -5,7 +5,6 @@ import {RouterLink, RouterLinkActive} from "@angular/router";
   selector: 'app-landing-page',
     imports: [
         RouterLink,
-        RouterLinkActive
     ],
   templateUrl: './landing-page.html',
   styleUrl: './landing-page.scss',

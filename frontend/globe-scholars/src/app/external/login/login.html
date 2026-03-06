@@ -1,1 +1,32 @@
-<p>login works!</p>
+<div class="form-container">
+    <form [formGroup]="form" (ngSubmit)="login()">
+        <h1>Login to Continue</h1>
+
+      @if(formErrorMsg) {
+         <div class="error">{{ formErrorMsg }}</div> 
+      }
+      @if(apiErrorMsg) {
+          <div class="error">{{ apiErrorMsg }}</div> 
+       }
+
+        <input type="text" formControlName="username" placeholder="username">
+        @if(username?.invalid && (username?.dirty || username?.touched)){
+          @if (username?.hasError('required')) {
+          <small class="error">This field is required</small>
+          }
+        }
+
+        <input type="password" formControlName="password" placeholder="Password">
+        @if(password?.invalid && (password?.dirty || password?.touched)){
+          @if (password?.hasError('required')) {
+          <small class="error">This field is required</small>
+          }
+        }
+          
+        <button type="submit">LOGIN</button>
+        <div class="footer">
+            <p>Don't have an account?</p> 
+            <a routerLink="/register">Register</a>
+        </div>
+    </form>
+</div>
