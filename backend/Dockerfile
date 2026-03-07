@@ -7,9 +7,10 @@ ENV PYTHONUNBUFFERED=1
 # Set work directory
 WORKDIR /app
 
-# Install system dependencies
-RUN apt-get update && apt-get install -y \
-    libreoffice \
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    build-essential \
+    libreoffice-writer \
+    libreoffice-java-common \
     python3-pip \
     libpango-1.0-0 \
     libharfbuzz0b \
@@ -30,11 +31,8 @@ RUN pip install --no-cache-dir -r requirements.txt
 # Copy project
 COPY . .
 
-# Expose port
+RUN chmod +x /app/entrypoint.sh
+
 EXPOSE 8000
 
-# Run server
-COPY entrypoint.sh /entrypoint.sh
-RUN chmod +x /entrypoint.sh
-
-CMD ["/entrypoint.sh"]
+CMD ["/app/entrypoint.sh"]
