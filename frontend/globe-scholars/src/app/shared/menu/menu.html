@@ -10,13 +10,13 @@
         <a routerLink="/repository" routerLinkActive="active">Repository</a>
 
         <div class="menu-btns">
-            @if(isLoggedIn && userImage){
+            @if(authService.isLoggedIn && userImage){
                 <div class="profileImage">
-                    <img [src]="userImage" />
+                    <img [src]="userImage"  alt=""/>
                 </div>
             }
             <button>
-                @if(!isLoggedIn) {
+                @if(!authService.isLoggedIn) {
                     <a routerLink="/login">LOGIN</a>
                 } @else {
                     <a routerLink="/upload">UPLOAD</a>

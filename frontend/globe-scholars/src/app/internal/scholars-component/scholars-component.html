@@ -1,1 +1,41 @@
-<p>scholars-component works!</p>
+<div class="scholars-container">
+  <div class="breadcrumb">Home > Scholars</div>
+
+  <h1>Search Scholars</h1>
+
+  <div class="search-bar">
+    <input type="text" [(ngModel)]="searchQuery" placeholder="Search by name..."/>
+  </div>
+
+  <div class="toolbar">
+    <button class="sort-btn" (click)="toggleSort()">
+      Sort: A–Z {{ sortAsc ? '↑' : '↓' }}
+    </button>
+  </div>
+
+  @if (isLoading) {
+    <div class="state-message">Loading...</div>
+  } @else if (error) {
+    <div class="state-message error">{{ error }}</div>
+  } @else if (filteredScholars.length === 0) {
+    <div class="state-message">No scholars found.</div>
+  } @else {
+    <div class="scholars-grid">
+      @for (scholar of filteredScholars; track scholar.id) {
+        <div class="scholar-card" (click)="goToProfile(scholar.id)" style="cursor: pointer;">
+          <div class="scholar-image">
+            <img
+              [src]="'https://upload.wikimedia.org/wikipedia/commons/8/89/Portrait_Placeholder.png'"
+              [alt]="scholar.fullName"
+            />
+          </div>
+          <div class="scholar-info">
+            <p class="scholar-name">{{ scholar.fullName }}</p>
+            <p class="scholar-year">{{ getYear(scholar.createdAt) }}</p>
+            <p class="scholar-uploads">{{ scholar.uploadCount }}</p>
+          </div>
+        </div>
+      }
+    </div>
+  }
+</div>

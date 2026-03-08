@@ -1,6 +1,7 @@
 from rest_framework import serializers
 from django.contrib.auth import get_user_model
 from .models import ScholarlyWork, Reaction
+from .tasks import convert_docx_to_pdf
 
 User = get_user_model()
 
@@ -105,12 +106,16 @@ class ScholarlyWorkUploadSerializer(serializers.ModelSerializer):
     
     def create(self, validated_data):
         file = validated_data['file']
-        
-        # Determine file type
-        file_type = 'pdf' if file.content_type == 'application/pdf' else 'docx'
+
+        # Determine file type from extension
+        file_extension = file.name.split('.')[-1].lower()
+
+        # Validate file type (already done in validate_file, but double-check)
+        if file_extension not in ['pdf', 'docx']:
+            raise serializers.ValidationError("Only PDF and DOCX files are allowed")
         
         # Set conversion status
-        conversion_status = 'completed' if file_type == 'pdf' else 'pending'
+        conversion_status = 'completed' if file_extension == 'pdf' else 'pending'
         
         scholarly_work = ScholarlyWork.objects.create(
             title=validated_data['title'],
@@ -121,15 +126,15 @@ class ScholarlyWorkUploadSerializer(serializers.ModelSerializer):
             file=file,
             original_filename=file.name,
             file_size=file.size,
-            file_type=file_type,
+            file_type=file_extension,
             conversion_status=conversion_status,
             uploader=self.context['request'].user
         )
         
-        # Trigger DOCX conversion if needed (RM14) - we'll implement this later
-        # if file_type == 'docx':
-        #     from .tasks import convert_docx_to_pdf
-        #     convert_docx_to_pdf.delay(scholarly_work.id)
+        # Trigger DOCX to PDF conversion task if needed
+        if file_extension == 'docx':
+            from .tasks import convert_docx_to_pdf
+            convert_docx_to_pdf.delay(scholarly_work.id)
         
         return scholarly_work
 
