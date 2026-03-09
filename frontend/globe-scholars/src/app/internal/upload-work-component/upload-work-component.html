@@ -23,7 +23,7 @@
       <div class="field-group">
         <label>Author(s) <span class="required">*</span></label>
         <div formArrayName="authors">
-          @for (author of authors.controls; track author; let i = $index) {
+          @for (author of authors.controls; track i; let i = $index) {
             <div class="author-row">
               <div class="input-line">
                 <input
@@ -53,13 +53,17 @@
       <div class="field-group">
         <label>Publication Date <span class="required">*</span></label>
         <input
-          type="text"
+          type="date"
           formControlName="publicationDate"
-          placeholder="YYYY-MM-DD"
+          [max]="maxDate"
           [class.invalid]="isFieldInvalid('publicationDate')"
         />
         @if (isFieldInvalid('publicationDate')) {
-          <small class="error">This field is required</small>
+          @if (uploadForm.get('publicationDate')?.hasError('required')) {
+            <small class="error">This field is required</small>
+          } @else if (uploadForm.get('publicationDate')?.hasError('futureDate')) {
+            <small class="error">Publication date cannot be in the future</small>
+          }
         }
       </div>
 
@@ -67,7 +71,7 @@
         <label>File Upload <span class="required">*</span></label>
         <div class="file-input-wrapper" [class.invalid]="fileError" (click)="fileInput.click()">
           <span class="file-placeholder">{{ selectedFile ? selectedFile.name : 'Click to upload a file' }}</span>
-          <input #fileInput type="file" (change)="onFileChange($event)" hidden />
+          <input #fileInput type="file" (change)="onFileChange($event)" hidden/>
         </div>
         @if (fileError) {
           <small class="error">{{ fileError }}</small>
@@ -86,7 +90,25 @@
         <small class="hint">Optional</small>
       </div>
 
-      <button type="submit" class="submit-btn">Upload</button>
+      @if (isUploading) {
+        <div class="modal-overlay">
+          <div class="modal-box">
+            <p class="modal-title">Upload in progress...</p>
+            <div class="progress-bar-track">
+              <div class="progress-bar-fill" [style.width.%]="conversionProgress"></div>
+            </div>
+            <p class="modal-hint">Please, don't close this window</p>
+          </div>
+        </div>
+      }
+
+      @if (uploadDone) {
+        <div class="success-message">Uploaded and converted successfully!</div>
+      }
+
+      <button type="submit" class="submit-btn" [disabled]="isUploading">
+        {{ isUploading ? 'Processing...' : 'Upload' }}
+      </button>
 
     </form>
   </div>
