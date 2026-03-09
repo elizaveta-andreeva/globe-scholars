@@ -23,6 +23,11 @@ export class UserProfileService {
     );
   }
 
+  changePassword(data: { old_password: string; new_password: string; new_password2: string }): Observable<any> {
+    return this.http.post(`${environment.baseURL}/auth/change-password/`, data);
+  }
+
+
   private mapProfile(s: any): UserProfile {
     return {
       id: s.id,

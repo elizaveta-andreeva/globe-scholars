@@ -8,6 +8,7 @@ from django.http import HttpResponse
 from io import BytesIO
 import weasyprint
 from drf_spectacular.utils import extend_schema, OpenApiParameter
+from .serializers import ChangePasswordSerializer
 
 from .serializers import (
     SignupSerializer,
@@ -215,3 +216,22 @@ class ProfileExportView(APIView):
         response = HttpResponse(pdf_file, content_type='application/pdf')
         response['Content-Disposition'] = f'attachment; filename="{user.username}_profile.pdf"'
         return response
+
+class ChangePasswordView(APIView):
+    permission_classes = [IsAuthenticated]
+
+    def post(self, request):
+        serializer = ChangePasswordSerializer(data=request.data)
+        if not serializer.is_valid():
+            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+        user = request.user
+        if not user.check_password(serializer.validated_data['old_password']):
+            return Response(
+                {'error': 'Current password is incorrect.'},
+                status=status.HTTP_400_BAD_REQUEST
+            )
+
+        user.set_password(serializer.validated_data['new_password'])
+        user.save()
+        return Response({'message': 'Password changed successfully.'})

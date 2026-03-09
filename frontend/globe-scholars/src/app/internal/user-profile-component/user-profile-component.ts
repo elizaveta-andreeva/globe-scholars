@@ -4,11 +4,13 @@ import { FormsModule } from '@angular/forms';
 import { RouterModule, Router } from '@angular/router';
 import { UserProfileService } from '../../services/user-profile/user-profile-service';
 import { UserProfile, UpdateProfileRequest } from '../../services/user-profile/user-profile.model';
+import { FormGroup, FormControl, Validators, ReactiveFormsModule } from '@angular/forms';
+
 
 @Component({
   selector: 'app-user-profile',
   standalone: true,
-  imports: [CommonModule, FormsModule, RouterModule],
+  imports: [CommonModule, FormsModule, RouterModule, ReactiveFormsModule],
   templateUrl: './user-profile-component.html',
   styleUrl: './user-profile-component.scss',
 })
@@ -82,7 +84,56 @@ export class UserProfileComponent implements OnInit {
     });
   }
 
-  // TODO: change password
+  isChangingPassword = false;
+  passwordError: string | null = null;
+  passwordSuccess = false;
+
+  startChangingPassword() {
+    this.isChangingPassword = true;
+    this.passwordError = null;
+  }
+
+  passwordForm = new FormGroup({
+    old_password: new FormControl('', [Validators.required]),
+    new_password: new FormControl('', [
+      Validators.required,
+      Validators.pattern(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[^\s]{6,}$/)
+    ]),
+    new_password2: new FormControl('', [Validators.required]),
+  });
+
+  get oldPassword() { return this.passwordForm.get('old_password'); }
+  get newPassword() { return this.passwordForm.get('new_password'); }
+  get newPassword2() { return this.passwordForm.get('new_password2'); }
+
+  cancelChangingPassword() {
+    this.isChangingPassword = false;
+    this.passwordForm.reset();
+    this.passwordError = null;
+  }
+
+  savePassword() {
+    if (this.passwordForm.invalid) return;
+    if (this.newPassword?.value !== this.newPassword2?.value) {
+      this.passwordError = 'Passwords do not match.';
+      return;
+    }
+    this.profileService.changePassword({
+      old_password: this.oldPassword?.value!,
+      new_password: this.newPassword?.value!,
+      new_password2: this.newPassword2?.value!,
+    }).subscribe({
+      next: () => {
+        this.isChangingPassword = false;
+        this.passwordSuccess = true;
+        this.passwordForm.reset();
+        setTimeout(() => this.passwordSuccess = false, 3000);
+      },
+      error: (err) => {
+        this.passwordError = err.error?.error || 'Failed to change password.';
+      }
+    });
+  }
 
   copied = false;
 
