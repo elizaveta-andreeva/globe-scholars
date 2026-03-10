@@ -98,7 +98,7 @@ class ScholarlyWorkUploadSerializer(serializers.ModelSerializer):
             raise serializers.ValidationError("Only PDF and DOCX files are allowed.")
         
         # Validate file size (RM19)
-        max_size = 50 * 1024 * 1024  # 50 MB
+        max_size = 20 * 1024 * 1024  # 20 MB
         if file.size > max_size:
             raise serializers.ValidationError("File size cannot exceed 20 MB.")
         
