@@ -80,6 +80,14 @@
       height: 90px;
       border-radius: 50%;
       background-color: #d9d9d9;
+
+      img {
+        width: 100%;
+        height: 100%;
+        border-radius: 50%;
+        object-fit: cover;
+      }
+
     }
 
     h2 {
@@ -103,7 +111,7 @@
       button {
         outline: none;
         border: none;
-        padding: 1px 5x;
+        padding: 1px 5px;
         background: none;
         cursor: pointer;
       }

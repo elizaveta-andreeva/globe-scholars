@@ -27,6 +27,7 @@ export class AuthService {
     return this.http.post<UserAccount>(`${this.authURL}/login/`, params).pipe(
       tap((response: UserAccount) => {
         this.setToken(response.tokens);
+        sessionStorage.setItem('username', username!);
       })
     )
   }
