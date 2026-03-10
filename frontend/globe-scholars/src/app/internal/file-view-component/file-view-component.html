@@ -45,9 +45,7 @@
         <p>{{ work.uploader.affiliation }}</p>
         <p>Show the authors some support by leaving a like below!</p>
         <div class="footer">
-          @if (!authService.isLoggedIn) {
-            <p>Log in to like this work</p>
-          } @else if (work.user_has_reacted) {
+          @if (work.user_has_reacted) {
             <button disabled>👍 Liked</button>
           } @else if (work.uploader.username === currentUsername) {
             <button disabled>Your work</button>
