@@ -7,10 +7,11 @@ import {Scholar} from '../../services/scholars/scholar.model';
 import {AuthService} from '../../services/auth/auth-service';
 import {Router, RouterLink} from '@angular/router';
 import {FormsModule} from '@angular/forms';
+import {BoldSearchTermPipe} from './bold-search-term.pipe';
 
 @Component({
   selector: 'app-repository-component',
-  imports: [CommonModule, DatePipe, RouterLink, FormsModule],
+  imports: [CommonModule, DatePipe, RouterLink, FormsModule, BoldSearchTermPipe],
   templateUrl: './repository-component.html',
   styleUrl: './repository-component.scss',
 })

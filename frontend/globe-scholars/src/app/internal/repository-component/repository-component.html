@@ -16,7 +16,7 @@
       @for (work of filteredWorks; track work.id) {
         <div class="file-card">
           <div class="file-grid">
-            <h1 class="work-title">{{ work.title }}</h1>
+            <h1 class="work-title" [innerHTML]="work.title | boldSearchTerm: searchQuery"></h1>
             <p class="work-uploader">{{ work.uploader.full_name }}</p>
             <div class="grid-footer">
               <button type="button" (click)="openWork(work.id)">Open</button>
