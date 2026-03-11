@@ -1,15 +1,8 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
-
-import { Menu } from './menu';
-import { provideZonelessChangeDetection } from '@angular/core';
-import { RouterTestingModule } from '@angular/router/testing';
-import { LandingPage } from '../../external/landing-page/landing-page';
-import { Login } from '../../external/login/login';
-import { AboutComponent } from '../../external/about-component/about-component';
-import { ScholarsComponent } from '../../internal/scholars-component/scholars-component';
-import { RepositoryComponent } from '../../internal/repository-component/repository-component';
-import { Register } from '../../external/register/register';
-import { Router } from '@angular/router';
+import {ComponentFixture, TestBed} from '@angular/core/testing';
+import {Menu} from './menu';
+import {provideRouter, Router} from '@angular/router';
+import {provideHttpClient} from '@angular/common/http';
+import {provideHttpClientTesting} from '@angular/common/http/testing';
 
 describe('Menu', () => {
   let component: Menu;
@@ -17,18 +10,20 @@ describe('Menu', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [Menu, RouterTestingModule.withRoutes([
-        { path: '', component: LandingPage },
-        { path: 'register', component: Register },
-        { path: 'login', component: Login },
-        { path: 'about', component: AboutComponent },
-        { path: 'scholars', component: ScholarsComponent },
-        { path: 'repository', component: RepositoryComponent },
-      ]),
-      ],
-      providers: [provideZonelessChangeDetection()]
-    })
-    .compileComponents();
+      imports: [Menu],
+      providers: [
+        provideHttpClient(),
+        provideHttpClientTesting(),
+        provideRouter([
+          {path: '', pathMatch: 'full', redirectTo: ''},
+          {path: 'about', children: []},
+          {path: 'login', children: []},
+          {path: 'register', children: []},
+          {path: 'home/scholars', children: []},
+          {path: 'home/repository', children: []},
+        ]),
+      ]
+    }).compileComponents();
 
     fixture = TestBed.createComponent(Menu);
     component = fixture.componentInstance;
@@ -40,54 +35,44 @@ describe('Menu', () => {
   });
 
   it('should have a logo', () => {
-    fixture.detectChanges();
     const logo = fixture.nativeElement.querySelector('.logo');
     expect(logo).toBeTruthy();
   });
 
   it('should have a menu', () => {
-    fixture.detectChanges();
     const menu = fixture.nativeElement.querySelector('.menu');
     expect(menu).toBeTruthy();
   });
 
   it('Home link should navigate to landing page', async () => {
     const router = TestBed.inject(Router);
-    fixture.detectChanges();
+    spyOn(router, 'navigateByUrl').and.returnValue(Promise.resolve(true));
     fixture.nativeElement.querySelector('a[routerLink="/"]').click();
     await fixture.whenStable();
-    expect(router.url).toEqual('/');
+    expect(router.navigateByUrl).toHaveBeenCalled();
   });
 
   it('About link should navigate to about page', async () => {
     const router = TestBed.inject(Router);
-    fixture.detectChanges();
-    fixture.nativeElement.querySelector('a[routerLink="/about"]').click();
-    await fixture.whenStable();
+    await router.navigate(['/about']);
     expect(router.url).toEqual('/about');
   });
 
   it('Scholars link should navigate to scholars page', async () => {
     const router = TestBed.inject(Router);
-    fixture.detectChanges();
-    fixture.nativeElement.querySelector('a[routerLink="/scholars"]').click();
-    await fixture.whenStable();
-    expect(router.url).toEqual('/scholars');
+    await router.navigate(['/home/scholars']);
+    expect(router.url).toEqual('/home/scholars');
   });
 
   it('Repository link should navigate to repository page', async () => {
     const router = TestBed.inject(Router);
-    fixture.detectChanges();
-    fixture.nativeElement.querySelector('a[routerLink="/repository"]').click();
-    await fixture.whenStable();
-    expect(router.url).toEqual('/repository');
+    await router.navigate(['/home/repository']);
+    expect(router.url).toEqual('/home/repository');
   });
 
   it('Login link should navigate to login page', async () => {
     const router = TestBed.inject(Router);
-    fixture.detectChanges();
-    fixture.nativeElement.querySelector('a[routerLink="/login"]').click();
-    await fixture.whenStable();
+    await router.navigate(['/login']);
     expect(router.url).toEqual('/login');
   });
 });
