@@ -3,7 +3,9 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { Register } from './register';
 import { AuthService } from '../../services/auth/auth-service';
 import { NewUser } from '../../services/auth/interface';
-import { provideZonelessChangeDetection } from '@angular/core';
+import {provideHttpClient} from '@angular/common/http';
+import {provideHttpClientTesting} from '@angular/common/http/testing';
+import {provideRouter} from '@angular/router';
 
 describe('Register', () => {
   let component: Register;
@@ -21,7 +23,11 @@ describe('Register', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       imports: [Register],
-      providers: [provideZonelessChangeDetection()]
+      providers: [
+        provideHttpClient(),
+        provideHttpClientTesting(),
+        provideRouter([]),
+      ]
     })
     .compileComponents();
 
@@ -61,7 +67,7 @@ describe('Register', () => {
   // test that the values entered by the user in the form is captured in the params object
   it('should capture form values in params object', () => {
     component.form.patchValue(newUser);
-    
+
     const params = component.form.getRawValue();
     expect(params.first_name).toBe(newUser.first_name);
     expect(params.last_name).toBe(newUser.last_name);

@@ -1,6 +1,6 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+import {ComponentFixture, TestBed} from '@angular/core/testing';
 
-import { AboutComponent } from './about-component';
+import {AboutComponent} from './about-component';
 import {provideRouter} from '@angular/router';
 
 describe('AboutComponent', () => {
@@ -12,7 +12,7 @@ describe('AboutComponent', () => {
       imports: [AboutComponent],
       providers: [provideRouter([])]
     })
-    .compileComponents();
+      .compileComponents();
 
     fixture = TestBed.createComponent(AboutComponent);
     component = fixture.componentInstance;

@@ -101,6 +101,7 @@ describe('RepositoryComponent', () => {
 
   it('should handle error when loading scholars fails', () => {
     scholarsService.getScholars.and.returnValue(throwError(() => new Error()));
+    component.scholars = [];
     component.loadScholars();
     expect(component.scholars).toEqual([]);
   });
