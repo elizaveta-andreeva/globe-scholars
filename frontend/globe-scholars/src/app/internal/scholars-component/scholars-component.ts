@@ -1,9 +1,8 @@
-import {Component, OnInit, PLATFORM_ID, Inject, ChangeDetectorRef} from '@angular/core';
+import {Component, OnInit, ChangeDetectorRef} from '@angular/core';
 import {CommonModule} from '@angular/common';
 import {FormsModule} from '@angular/forms';
 import {ScholarsService} from '../../services/scholars/scholars-service';
 import {Scholar} from '../../services/scholars/scholar.model';
-import {isPlatformBrowser} from '@angular/common';
 import {Router} from '@angular/router';
 
 @Component({
@@ -24,15 +23,12 @@ export class ScholarsComponent implements OnInit {
   constructor(
     private scholarsService: ScholarsService,
     private router: Router,
-    @Inject(PLATFORM_ID) private platformId: Object,
     private cdr: ChangeDetectorRef
   ) {
   }
 
   ngOnInit() {
-    if (isPlatformBrowser(this.platformId)) {
-      this.loadScholars();
-    }
+    this.loadScholars();
   }
 
   loadScholars() {
