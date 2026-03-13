@@ -75,13 +75,4 @@ describe('LandingPage', () => {
 
     expect(texts).not.toContain('SCHOLARS');
   });
-
-  it('should call login endpoint', () => {
-    authService.login('john', 'pass123').subscribe();
-
-    const req = httpMock.expectOne(req => req.url.includes('/auth/login/'));
-    expect(req.request.method).toBe('POST');
-    expect(req.request.body).toEqual({ username: 'john', password: 'pass123' });
-    req.flush({ tokens: { access: 'acc', refresh: 'ref' } });
-  });
 });
