@@ -58,7 +58,7 @@ describe('Repository Page', () => {
   describe('With login', () => {
     beforeEach(() => {
       cy.visit('http://localhost:4200/home/repository');
-      cy.login('user', 'passworD123');   // Create user before running this test and use valid credentials
+      cy.login('testuser', 'TestPass123!');
       cy.reload();
     });
 
