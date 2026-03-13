@@ -14,7 +14,7 @@ import {FileViewComponent} from './internal/file-view-component/file-view-compon
 
 export const routes: Routes = [
   {
-    path: '',
+    path: 'home',
     component: LandingPage
   },
   {
@@ -60,6 +60,6 @@ export const routes: Routes = [
   },
   {
     path: '**',
-    redirectTo: ''
+    redirectTo: 'home'
   }
 ];
