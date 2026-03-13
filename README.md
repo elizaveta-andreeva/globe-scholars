@@ -8,3 +8,17 @@
 ```bash
 docker-compose up --build
 ```
+
+## How to run tests
+
+1. Make sure the project is running.
+2. Use following command to run tests from `frontend/globe-scholars` directory:
+```bash
+ng test --watch=false --code-coverage 
+```
+## How to run end-to-end tests
+1. Make sure the project is running.
+2. Use following command to run end-to-end tests from `frontend/globe-scholars` directory:
+```bash
+npx cypress open
+```
