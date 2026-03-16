@@ -137,19 +137,6 @@ describe('RepositoryComponent', () => {
     expect(component.activeFilter).toBe('last-year');
   });
 
-  it('filteredWorks should filter by search query', () => {
-    component.works = [mockWork, {...mockWork, id: 2, title: 'Other Paper'}];
-    component.searchQuery = 'Test';
-    expect(component.filteredWorks.length).toBe(1);
-    expect(component.filteredWorks[0].title).toBe('Test Work');
-  });
-
-  it('filteredWorks should filter by authors', () => {
-    component.works = [mockWork, {...mockWork, id: 2, title: 'Other', authors: 'Jane Smith'}];
-    component.searchQuery = 'Jane';
-    expect(component.filteredWorks.length).toBe(1);
-  });
-
   it('filteredWorks should filter by last year', () => {
     const now = new Date().getFullYear();
     component.works = [

@@ -15,6 +15,8 @@ describe('UserProfileComponent', () => {
     cy.get('.btn-primary').contains('Edit Profile').click();
     cy.get('input[placeholder="First name"]').clear().type('UpdatedName');
     cy.get('.btn-primary').contains('Save Changes').click();
+    cy.get('.modal').should('be.visible');
+    cy.get('.modal-actions button').last().click();
     cy.get('.notification').should('contain', 'Profile updated successfully!');
     cy.get('.profile-name').should('contain', 'UpdatedName');
   });
@@ -24,6 +26,7 @@ describe('UserProfileComponent', () => {
     const newBio = `Bio updated at ${Date.now()}`;
     cy.get('textarea[placeholder="Bio..."]').clear().type(newBio);
     cy.get('.btn-primary').contains('Save Changes').click();
+    cy.get('.modal-actions button').last().click();
     cy.get('.notification').should('contain', 'Profile updated successfully!');
     cy.reload();
     cy.get('.bio-box').should('contain', newBio);
