@@ -84,7 +84,8 @@ export class RepositoryComponent implements OnInit {
         this.scholarHasNext = !!res.next;
         this.scholarHasPrev = !!res.previous;
         this.scholarPage = page;
-      }
+      },
+      error: () => {}
     });
   }
 
