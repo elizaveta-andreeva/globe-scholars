@@ -61,22 +61,6 @@ export class RepositoryComponent implements OnInit {
     this.loadWorks(this.currentPage);
   }
 
-  loadWorks(page: number) {
-    this.isLoading = true;
-    this.repositoryService.getWorks(page, this.searchQuery).subscribe({
-      next: (res) => {
-        this.works = res.results;
-        this.hasNext = !!res.next;
-        this.hasPrev = !!res.previous;
-        this.isLoading = false;
-      },
-      error: () => {
-        this.error = 'Failed to load works.';
-        this.isLoading = false;
-      }
-    });
-  }
-
   loadScholars(page: number = 1) {
     this.scholarsService.getScholars(page).subscribe({
       next: (res) => {
@@ -85,7 +69,8 @@ export class RepositoryComponent implements OnInit {
         this.scholarHasPrev = !!res.previous;
         this.scholarPage = page;
       },
-      error: () => {}
+      error: () => {
+      }
     });
   }
 
@@ -127,8 +112,6 @@ export class RepositoryComponent implements OnInit {
     const now = new Date().getFullYear();
     return this.works
       .filter(work => {
-        const matchesSearch = true;
-
         const matchesYear = (() => {
           switch (this.activeFilter) {
             case 'last-year':
@@ -141,17 +124,8 @@ export class RepositoryComponent implements OnInit {
               return true;
           }
         })();
-
-        const matchesAuthor = (() => {
-          if (this.authorFilterId) {
-            return work.uploader.id === this.authorFilterId;
-          }
-          return true;
-        })();
-
-        return matchesSearch && matchesYear && matchesAuthor;
+        return matchesYear;
       })
-      // RS6 - default sorting by upload date
       .sort((a, b) => new Date(b.uploaded_at).getTime() - new Date(a.uploaded_at).getTime());
   }
 
@@ -161,10 +135,30 @@ export class RepositoryComponent implements OnInit {
 
   setAuthorFilter(id: number) {
     this.authorFilterId = id;
+    this.currentPage = 1;
+    this.loadWorks(1);
   }
 
   resetAuthorFilter() {
     this.authorFilterId = null;
+    this.currentPage = 1;
+    this.loadWorks(1);
+  }
+
+  loadWorks(page: number) {
+    this.isLoading = true;
+    this.repositoryService.getWorks(page, this.searchQuery, this.authorFilterId ?? undefined).subscribe({
+      next: (res) => {
+        this.works = res.results;
+        this.hasNext = !!res.next;
+        this.hasPrev = !!res.previous;
+        this.isLoading = false;
+      },
+      error: () => {
+        this.error = 'Failed to load works.';
+        this.isLoading = false;
+      }
+    });
   }
 
   prevPage() {

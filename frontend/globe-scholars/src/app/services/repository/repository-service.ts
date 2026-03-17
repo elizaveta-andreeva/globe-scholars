@@ -11,10 +11,13 @@ export class RepositoryService {
 
   constructor(private http: HttpClient) {}
 
-  getWorks(page: number = 1, search: string = ''): Observable<WorksResponse> {
+  getWorks(page: number = 1, search: string = '', uploader?: number): Observable<any> {
     const params = new URLSearchParams({ page: String(page) });
     if (search) params.set('search', search);
-    return this.http.get<WorksResponse>(`${this.apiUrl}/?${params}`);
+    if (uploader) params.set('uploader', String(uploader));
+    return this.http.get(`${this.apiUrl}/?${params}`, {
+      headers: { Authorization: `Bearer ${sessionStorage.getItem('access_token')}` }
+    });
   }
 
   getWorkDetail(id: number): Observable<WorkDetail> {
