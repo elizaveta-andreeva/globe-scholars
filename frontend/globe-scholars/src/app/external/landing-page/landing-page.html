@@ -4,10 +4,10 @@
 
 <div class="buttons">
   @if (authService.isLoggedIn) {
-    <button routerLink="/home/scholars">SCHOLARS</button>
-    <button routerLink="/home/repository">REPOSITORY</button>
-    <button routerLink="/home/profile">PROFILE</button>
-    <button routerLink="/home/upload">UPLOAD WORK</button>
+    <button routerLink="/scholars">SCHOLARS</button>
+    <button routerLink="/repository">REPOSITORY</button>
+    <button routerLink="/profile">PROFILE</button>
+    <button routerLink="/upload">UPLOAD WORK</button>
   } @else {
     <button routerLink="/register">GET STARTED</button>
     <button class="secondary" routerLink="/about">LEARN MORE</button>

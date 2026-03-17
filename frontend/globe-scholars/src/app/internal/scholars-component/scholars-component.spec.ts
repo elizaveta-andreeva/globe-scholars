@@ -85,7 +85,7 @@ describe('ScholarsComponent', () => {
 
     component.goToProfile(1);
 
-    expect(router.navigate).toHaveBeenCalledWith(['/home/scholars', 1]);
+    expect(router.navigate).toHaveBeenCalledWith(['/scholars', 1]);
   });
 
   it('should toggle sort order', () => {

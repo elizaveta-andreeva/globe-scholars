@@ -47,7 +47,7 @@ describe('Menu', () => {
   it('Home link should navigate to landing page', async () => {
     const router = TestBed.inject(Router);
     spyOn(router, 'navigateByUrl').and.returnValue(Promise.resolve(true));
-    fixture.nativeElement.querySelector('a[routerLink="/home"]').click();
+    fixture.nativeElement.querySelector('a[routerLink="/"]').click();
     await fixture.whenStable();
     expect(router.navigateByUrl).toHaveBeenCalled();
   });
@@ -60,14 +60,14 @@ describe('Menu', () => {
 
   it('Scholars link should navigate to scholars page', async () => {
     const router = TestBed.inject(Router);
-    await router.navigate(['/home/scholars']);
-    expect(router.url).toEqual('/home/scholars');
+    await router.navigate(['/scholars']);
+    expect(router.url).toEqual('/scholars');
   });
 
   it('Repository link should navigate to repository page', async () => {
     const router = TestBed.inject(Router);
-    await router.navigate(['/home/repository']);
-    expect(router.url).toEqual('/home/repository');
+    await router.navigate(['/repository']);
+    expect(router.url).toEqual('/repository');
   });
 
   it('Login link should navigate to login page', async () => {

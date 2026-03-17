@@ -14,7 +14,7 @@ import {FileViewComponent} from './internal/file-view-component/file-view-compon
 
 export const routes: Routes = [
   {
-    path: 'home',
+    path: '',
     component: LandingPage
   },
   {
@@ -32,34 +32,34 @@ export const routes: Routes = [
     component: AboutComponent
   },
   {
-    path: 'home/scholars',
+    path: 'scholars',
     component: ScholarsComponent,
   },
   {
-    path: 'home/scholars/:id',
+    path: 'scholars/:id',
     component: ScholarProfileComponent
   },
   {
-    path: 'home/repository',
+    path: 'repository',
     component: RepositoryComponent,
   },
   {
-    path: 'home/repository/:id',
+    path: 'repository/:id',
     component: FileViewComponent,
     canActivate: [authGuard]
   },
   {
-    path: 'home/upload',
+    path: 'upload',
     component: UploadWorkComponent,
     canActivate: [authGuard],
   },
   {
-    path: 'home/profile',
+    path: 'profile',
     component: UserProfileComponent,
     canActivate: [authGuard]
   },
   {
     path: '**',
-    redirectTo: 'home'
+    redirectTo: ''
   }
 ];

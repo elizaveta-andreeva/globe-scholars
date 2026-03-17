@@ -42,7 +42,7 @@ export class Login implements OnInit {
     this.authService.login(values.username, values.password).subscribe({
       next: (res: UserAccount) => {
         console.log(res.message);
-        this.router.navigateByUrl('/home');
+        this.router.navigateByUrl('/');
       }, error: (res) => {
           this.apiErrorMsg = res.error.error;
           console.log(res)

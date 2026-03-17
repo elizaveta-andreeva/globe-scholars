@@ -37,7 +37,7 @@ export class BreadcrumbsComponent implements OnDestroy {
         return;
       }
 
-      const breadcrumbs: Array<{ path: string, label: string }> = [];
+      const breadcrumbs: Array<{ path: string, label: string }> = [{ path: '/', label: 'Home' }];
       let currentPath = '';
 
       for (let i = 0; i < parts.length; i++) {

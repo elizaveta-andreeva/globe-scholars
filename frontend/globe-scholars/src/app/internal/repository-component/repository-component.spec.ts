@@ -127,7 +127,7 @@ describe('RepositoryComponent', () => {
     Object.defineProperty(authService, 'isLoggedIn', { get: () => true, configurable: true });
     spyOn(router, 'navigate');
     component.openWork(1);
-    expect(router.navigate).toHaveBeenCalledWith(['/home/repository', 1]);
+    expect(router.navigate).toHaveBeenCalledWith(['/repository', 1]);
   });
 
   it('should show login modal when opening work while not logged in', () => {

@@ -111,7 +111,7 @@
                     <p class="work-year">{{ work.publication_year }}</p>
                   </div>
                   <div class="work-actions">
-                    <button routerLink="/home/repository/{{ work.id }}">Open</button>
+                    <button routerLink="/repository/{{ work.id }}">Open</button>
                     @if (work.uploader.username === currentUsername) {
                       <button (click)="confirmDelete(work.id)">Delete</button>
                     }

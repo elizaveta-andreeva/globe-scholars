@@ -105,7 +105,7 @@ export class RepositoryComponent implements OnInit {
       this.showLoginModal = true;
       return;
     }
-    this.router.navigate(['/home/repository', workId]);
+    this.router.navigate(['/repository', workId]);
   }
 
   get filteredWorks(): WorkSummary[] {

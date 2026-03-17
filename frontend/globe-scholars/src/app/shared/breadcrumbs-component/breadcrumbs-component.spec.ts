@@ -45,7 +45,7 @@ describe('BreadcrumbsComponent', () => {
   });
 
   it('should build breadcrumbs from url', () => {
-    triggerNavigation('/home/scholars');
+    triggerNavigation('/scholars');
     expect(component.pathParts().length).toBeGreaterThan(0);
   });
 
@@ -65,7 +65,7 @@ describe('BreadcrumbsComponent', () => {
   });
 
   it('should capitalize first letter of path labels', () => {
-    triggerNavigation('/home/scholars');
+    triggerNavigation('/scholars');
     const parts = component.pathParts();
     expect(parts.length).toBeGreaterThan(0);
     parts.forEach(part => {
@@ -76,7 +76,7 @@ describe('BreadcrumbsComponent', () => {
   it('should show ... for id segment before resolving', () => {
     const scholarsSpy = TestBed.inject(ScholarsService) as jasmine.SpyObj<ScholarsService>;
     scholarsSpy.getScholarById.and.returnValue(of({fullName: 'John Doe'} as any));
-    triggerNavigation('/home/scholars/1');
+    triggerNavigation('/scholars/1');
     expect(component.pathParts().length).toBeGreaterThan(0);
   });
 
