@@ -59,10 +59,10 @@ class Command(BaseCommand):
                 work.file.save(f'test_work{i}.pdf', ContentFile(pdf_content), save=True)
                 self.stdout.write(self.style.SUCCESS(f'Created work{i}: id={work.id}'))
             else:
-                if not work1.file:
-                    work1.file.save('test_work{i}.pdf', ContentFile(pdf_content), save=True)
-                    self.stdout.write(self.style.SUCCESS(f'Fixed file for work{i}: id={work1.id}'))
+                if not work.file:
+                    work.file.save('test_work{i}.pdf', ContentFile(pdf_content), save=True)
+                    self.stdout.write(self.style.SUCCESS(f'Fixed file for work{i}: id={work.id}'))
                 else:
-                    self.stdout.write(f'work{i} already exists: id={work1.id}')
+                    self.stdout.write(f'work{i} already exists: id={work.id}')
 
         self.stdout.write(self.style.SUCCESS('Seed complete'))
