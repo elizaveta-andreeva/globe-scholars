@@ -4,7 +4,7 @@ describe('Repository Page', () => {
 
   describe('Without login', () => {
     beforeEach(() => {
-      cy.visit('http://localhost:4200/home/repository');
+      cy.visit('http://localhost:4200/repository');
     });
 
     it('should display the repository page', () => {
@@ -57,7 +57,7 @@ describe('Repository Page', () => {
 
   describe('With login', () => {
     beforeEach(() => {
-      cy.visit('http://localhost:4200/home/repository');
+      cy.visit('http://localhost:4200/repository');
       cy.login('testuser0', 'TestPass123!');
       cy.reload();
     });
@@ -68,7 +68,7 @@ describe('Repository Page', () => {
 
     it('should navigate to work on Open click', () => {
       cy.get('.grid-footer button').contains('Open').first().click();
-      cy.url().should('include', '/home/repository/');
+      cy.url().should('include', '/repository/');
     });
   });
 });

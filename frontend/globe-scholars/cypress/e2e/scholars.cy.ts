@@ -1,7 +1,7 @@
 describe('ScholarsComponent', () => {
 
   beforeEach(() => {
-    cy.visit('/home/scholars');
+    cy.visit('/scholars');
   });
 
   it('should display scholars grid with real data from API', () => {
@@ -45,13 +45,13 @@ describe('ScholarsComponent', () => {
 
   it('should navigate to scholar profile on card click', () => {
     cy.get('.scholar-card').first().click();
-    cy.url().should('match', /\/home\/scholars\/\d+/);
+    cy.url().should('match', /\/scholars\/\d+/);
   });
 
   it('should persist search query while browsing', () => {
     cy.get('input[type="text"]').type('Test');
     cy.get('.scholar-card').first().click();
     cy.go('back');
-    cy.url().should('include', '/home/scholars');
+    cy.url().should('include', '/scholars');
   });
 });

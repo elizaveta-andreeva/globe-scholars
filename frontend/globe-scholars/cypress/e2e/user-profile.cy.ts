@@ -2,7 +2,7 @@ describe('UserProfileComponent', () => {
 
   beforeEach(() => {
     cy.login('testuser0', 'TestPass123!');
-    cy.visit('/home/profile');
+    cy.visit('/profile');
     cy.reload();
   });
 

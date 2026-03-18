@@ -2,7 +2,7 @@ describe('UploadWorkComponent', () => {
 
   beforeEach(() => {
     cy.login('testuser0', 'TestPass123!');
-    cy.visit('/home/upload');
+    cy.visit('/upload');
     cy.reload();
   });
 
