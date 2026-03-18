@@ -208,16 +208,4 @@ describe('UserProfileComponent', () => {
     expect(sessionStorage.getItem('refresh_token')).toBeNull();
     expect(router.navigate).toHaveBeenCalledWith(['/login']);
   });
-
-  // it('oldPassword getter should return form control', () => {
-  //   expect(component.oldPassword).toBe(component.passwordForm.get('old_password'));
-  // });
-  //
-  // it('newPassword getter should return form control', () => {
-  //   expect(component.newPassword).toBe(component.passwordForm.get('new_password'));
-  // });
-  //
-  // it('newPassword2 getter should return form control', () => {
-  //   expect(component.newPassword2).toBe(component.passwordForm.get('new_password2'));
-  // });
 });

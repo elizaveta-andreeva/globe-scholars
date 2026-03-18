@@ -8,7 +8,7 @@ describe('Login', () => {
     cy.get('input[formControlName="username"]').type('testuser0');
     cy.get('input[formControlName="password"]').type('TestPass123!');
     cy.get('button[type="submit"]').click();
-    cy.url().should('include', '/home');
+    cy.url().should('eq', 'http://localhost:4200/');
   });
 
   it('should show error on wrong credentials', () => {

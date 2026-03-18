@@ -80,7 +80,7 @@ describe('UploadWorkComponent', () => {
     expect(component.authors.length).toBe(1);
 
     component.removeAuthor(0);
-    expect(component.authors.length).toBe(1); // never remove last
+    expect(component.authors.length).toBe(1);
   });
 
   it('should validate file type', () => {
@@ -117,11 +117,11 @@ describe('UploadWorkComponent', () => {
     expect(uploadService.uploadWork).toHaveBeenCalled();
     expect(component.isUploading).toBeTrue();
 
-    tick(1000); // simulate interval
+    tick(1000);
     expect(component.conversionStatus).toBe('completed');
     expect(component.conversionProgress).toBe(100);
 
-    tick(1500); // simulate delay after completion
+    tick(1500);
     expect(component.isUploading).toBeFalse();
     expect(component.uploadDone).toBeTrue();
     expect(component.selectedFile).toBeNull();
